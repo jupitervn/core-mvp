@@ -10,3 +10,10 @@ app
 data
 data-android
 domain
+.idea/.name
+.idea/encodings.xml
+.idea/gradle.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/runConfigurations.xml
+profiles_settings.xml
