@@ -1,0 +1,48 @@
+ext {
+    //Android related version
+    androidLibVersion = '23.1.1'
+    butterKnifeVersion = '7.0.1'
+
+
+    //RxLib version
+    rxJavaVersion = '1.0.17'
+    rxBindingVersion = '0.3.0'
+    rxAndroidVersion = '1.0.1'
+    rxLifecycleVersion = '0.3.1'
+
+    //Testing
+    jUnitVersion = '4.12'
+    mockitoVersion = '1.10.19'
+    espressoVersion = '2.0'
+    dexmakerVersion = '1.2'
+    testingSupportLibVersion = '0.4.1'
+    assertjAndroidVersion = '1.1.1'
+    jacocoVersion = "0.7.1.201405082137"
+    robolectricVersion = "3.1-SNAPSHOT"
+    assertjVersion = "1.7.1"
+
+    testDependencies = [
+            junit:              "junit:junit:${jUnitVersion}",
+            mockito:            "org.mockito:mockito-core:${mockitoVersion}",
+            dexmaker:           "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+            dexmakerMockito:    "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            testingSupportLib:  "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+            assertJAndroidLib:  "com.squareup.assertj:assertj-android:${assertjAndroidVersion}",
+            assertJLib:         "org.assertj:assertj-core:${assertjVersion}",
+            robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
+            testRunner:         "com.android.support.test:runner:${testingSupportLibVersion}",
+            testRules:          "com.android.support.test:rules:${testingSupportLibVersion}"
+    ]
+}
+
+
+subprojects { subproject ->
+    rootProject.ext.properties.every {
+        key,value -> subproject.ext[key] = value
+    }
+
+    group = PRJ_GROUP
+    version = PRJ_VERSION
+}
+

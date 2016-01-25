@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+apply plugin: "me.tatarka.retrolambda"
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile project(':core-mvp')
+    compile "com.android.support:appcompat-v7:${androidLibVersion}"
+    compile "io.reactivex:rxjava:${rxJavaVersion}"
+    compile "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
+    compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
+    compile "io.reactivex:rxandroid:${rxAndroidVersion}"
+    compile "com.trello:rxlifecycle:${rxLifecycleVersion}"
+    compile "com.trello:rxlifecycle-components:${rxLifecycleVersion}"
+    compile "io.reactivex:rxjava-debug:1.0.3"
+
+    testCompile "${testDependencies.junit}"
+    testCompile "${testDependencies.mockito}"
+    testCompile "${testDependencies.assertJLib}"
+    testCompile "${testDependencies.robolectric}"
+
+    androidTestCompile "${testDependencies.mockito}"
+    androidTestCompile "${testDependencies.dexmaker}"
+    androidTestCompile "${testDependencies.dexmakerMockito}"
+    androidTestCompile "${testDependencies.assertJLib}"
+}
