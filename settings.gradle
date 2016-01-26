@@ -1,1 +1,1 @@
-include ':core-mvp', ':core-mvp-rx'
+include ':core-mvp', ':core-mvp-rx', ':app'
