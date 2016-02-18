@@ -1,0 +1,64 @@
+subprojects { project ->
+    apply plugin: 'findbugs'
+    task findBugsCheck(type: FindBugs, dependsOn: ['assembleDebug']) {
+        description = 'execute findbugs tool on project compiled code'
+        group = 'codequality'
+
+        ignoreFailures = true
+
+        effort = "max"
+        reportLevel = "high"
+        excludeFilter = new File("${project.rootDir}/quality/findbugs-filter.xml")
+        classes = files("${project.buildDir}/intermediates/classes")
+
+        source 'src'
+        include '**/*.java'
+        // exclude auto-generated code and 3rd party libs
+        exclude '**/build/generated/**', '**/build/source/**',
+                '**/com/android/**', '**/com/google/**', '**/android/support/**'
+
+        reports {
+            xml {
+                destination "${project.buildDir}/reports/findbugs/findbugs.xml"
+                xml.withMessages true
+                enabled = false
+            }
+
+            // XML and HTML cannot be generated in one call, so HTML we produce by custom task
+            html.enabled true
+        }
+
+        classpath = files()
+    }
+
+    apply plugin: 'pmd'
+    task pmdCheck(type: Pmd) {
+        description = 'execute findbugs tool on project code'
+        group = 'codequality'
+
+        ignoreFailures = false
+
+        ruleSetFiles = files("${project.rootDir}/quality/pmd-ruleset.xml")
+        ruleSets = []
+
+        source 'src'
+        include '**/*.java'
+        exclude '**/gen/**'
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+            xml {
+                destination "$project.buildDir/reports/pmd/pmd.xml"
+            }
+            html {
+                destination "$project.buildDir/reports/pmd/pmd.html"
+            }
+        }
+    }
+    project.afterEvaluate {
+        check.dependsOn 'findBugsCheck', 'pmdCheck'
+    }
+
+
+}

@@ -18,7 +18,7 @@ ext {
     testingSupportLibVersion = '0.4.1'
     assertjAndroidVersion = '1.1.1'
     jacocoVersion = "0.7.1.201405082137"
-    robolectricVersion = "3.1-SNAPSHOT"
+    robolectricVersion = "3.0"
     assertjVersion = "1.7.1"
 
     testDependencies = [

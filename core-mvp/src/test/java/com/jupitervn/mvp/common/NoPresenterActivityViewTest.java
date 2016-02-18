@@ -6,15 +6,14 @@ import com.jupitervn.mvp.BuildConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ActivityController;
 
 /**
  * Created by Jupiter (vu.cao.duy@gmail.com) on 1/18/16.
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(CustomRobolectricTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21, manifest = "src/test/AndroidManifest.xml")
 public class NoPresenterActivityViewTest {
     @Test(expected = AssertionError.class)
     public void testShouldAlertErrorIfPresenterLifecycleNotSet() throws Exception {
@@ -23,5 +22,6 @@ public class NoPresenterActivityViewTest {
         activityController.setup().get();
         activityController.pause().destroy();
     }
+
 
 }

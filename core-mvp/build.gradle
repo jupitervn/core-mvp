@@ -33,7 +33,6 @@ android {
     }
 }
 
-
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
@@ -56,6 +55,9 @@ dependencies {
     androidTestCompile "${testDependencies.dexmakerMockito}"
     androidTestCompile "${testDependencies.assertJLib}"
 }
+
+apply from: '../deploy.gradle'
+
 
 // This task discovers the manifest files for the .aars that we depend on and
 // adds them to project.ext.manifestFiles for use in later tasks.

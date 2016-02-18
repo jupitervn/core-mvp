@@ -1,4 +1,8 @@
 <manifest package="com.jupitervn.mvp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <application android:theme="@style/Base.Theme.AppCompat">
+
+    </application>
 </manifest>

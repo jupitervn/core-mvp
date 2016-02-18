@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ActivityController;
 
@@ -27,8 +26,8 @@ import static org.mockito.Mockito.verify;
 /**
  * Created by Jupiter (vu.cao.duy@gmail.com) on 1/13/16.
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 21, manifest = "src/test/AndroidManifest.xml")
+@RunWith(CustomRobolectricTestRunner.class)
 public class BaseAppcompatActivityViewTest {
 
     private ActivityController<AppCompatActivityViewForTest> activityController;
@@ -45,7 +44,7 @@ public class BaseAppcompatActivityViewTest {
 
     @Test
     public void testOnCreateShouldAlsoCreatePresenter() throws Exception {
-        AppCompatActivityViewForTest appCompatActivityViewForTest = activityController.create().get();
+        AppCompatActivityViewForTest appCompatActivityViewForTest = activityController.create().postCreate(null).get();
         PresenterLifecycle mockPresenterLifecycle = appCompatActivityViewForTest.getPresenterLifecycle();
         verify(mockPresenterLifecycle).onCreate(Mockito.isNull(Bundle.class));
     }

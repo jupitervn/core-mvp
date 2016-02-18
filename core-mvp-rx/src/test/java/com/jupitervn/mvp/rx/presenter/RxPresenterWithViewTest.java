@@ -48,29 +48,6 @@ public class RxPresenterWithViewTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-//        RxJavaPlugins.getInstance().registerObservableExecutionHook(new DebugHook(new DebugNotificationListener() {
-//            public Object onNext(DebugNotification n) {
-//                System.out.println("onNext on " + n);
-//                return super.onNext(n);
-//            }
-//
-//
-//            public Object start(DebugNotification n) {
-//                System.out.println("start on " + n);
-//                return super.start(n);
-//            }
-//
-//
-//            public void complete(Object context) {
-//                super.complete(context);
-//                System.out.println("onComplete on " + context);
-//            }
-//
-//            public void error(Object context, Throwable e) {
-//                super.error(context, e);
-//                System.out.println("error on " + context + " " + e);
-//            }
-//        }));
         RxJavaTestPlugins.resetPlugins();
         RxAndroidPlugins.getInstance().reset();
         RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {

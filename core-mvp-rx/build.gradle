@@ -38,8 +38,6 @@ dependencies {
     compile project(':core-mvp')
     compile "com.android.support:appcompat-v7:${androidLibVersion}"
     compile "io.reactivex:rxjava:${rxJavaVersion}"
-    compile "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
-    compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
     compile "io.reactivex:rxandroid:${rxAndroidVersion}"
     compile "com.trello:rxlifecycle:${rxLifecycleVersion}"
     compile "com.trello:rxlifecycle-components:${rxLifecycleVersion}"

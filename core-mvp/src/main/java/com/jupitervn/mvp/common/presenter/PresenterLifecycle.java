@@ -8,6 +8,7 @@ import android.os.Bundle;
  * Created by Jupiter (vu.cao.duy@gmail.com) on 12/14/15.
  */
 public class PresenterLifecycle<P extends BaseViewPresenter> {
+
     public static final String PRESENTER_ID_KEY = "presenter-id-key";
     public static final String PRESENTER_DATA_KEY = "presenter-data-key";
     private PresenterStorage presenterStorage;
@@ -66,7 +67,7 @@ public class PresenterLifecycle<P extends BaseViewPresenter> {
             presenter.setView(null);
             presenter.onPause(shouldDestroy);
             if (shouldDestroy) {
-               destroyPresenterIfNeeded(shouldDestroy);
+                destroyPresenterIfNeeded(shouldDestroy);
             }
         }
     }
@@ -76,12 +77,10 @@ public class PresenterLifecycle<P extends BaseViewPresenter> {
     }
 
     public void destroyPresenterIfNeeded(boolean shouldDestroy) {
-        if (shouldDestroy) {
-            if (presenter != null) {
-                presenter.onDestroy();
-                presenterStorage.destroyPresenter(presenter);
-                presenter = null;
-            }
+        if (shouldDestroy && presenter != null) {
+            presenter.onDestroy();
+            presenterStorage.destroyPresenter(presenter);
+            presenter = null;
         }
     }
 }

@@ -15,6 +15,7 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.when;
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class PresenterLifecycleTest {
+
     private StubPresenterStorage stubPresenterStorage;
     @Mock
     private PresenterFactory mockPresenterFactory;
@@ -40,7 +42,8 @@ public class PresenterLifecycleTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         stubPresenterStorage = new StubPresenterStorage();
-        when(mockPresenterFactory.createPresenter()).thenReturn(mock(BaseViewPresenter.class), mock(BaseViewPresenter.class));
+        when(mockPresenterFactory.createPresenter())
+                .thenReturn(mock(BaseViewPresenter.class), mock(BaseViewPresenter.class));
         presenterLifecycle = spy(new PresenterLifecycle(stubPresenterStorage, mockPresenterFactory));
     }
 
@@ -58,12 +61,18 @@ public class PresenterLifecycleTest {
         BaseViewPresenter beforeViewPresenter = presenterLifecycle.onCreate(null);
         verify(mockPresenterFactory).createPresenter();
         verify(beforeViewPresenter).create(Mockito.<Bundle>eq(null));
-        Bundle outState = new Bundle();
-        outState.putString("test_key", "test_value");
+        Bundle outState = generateActivityBundle();
         presenterLifecycle.onSavePresenterState(outState);
         BaseViewPresenter afterViewPresenter = presenterLifecycle.onCreate(outState);
         verifyNoMoreInteractions(mockPresenterFactory);
         assertThat(beforeViewPresenter).isEqualTo(afterViewPresenter);
+    }
+
+    @NonNull
+    private Bundle generateActivityBundle() {
+        Bundle outState = new Bundle();
+        outState.putString("test_key", "test_value");
+        return outState;
     }
 
 
@@ -72,8 +81,7 @@ public class PresenterLifecycleTest {
         BaseViewPresenter beforeViewPresenter = presenterLifecycle.onCreate(null);
         verify(mockPresenterFactory).createPresenter();
         verify(beforeViewPresenter).create(Mockito.<Bundle>eq(null));
-        Bundle outState = new Bundle();
-        outState.putString("test_key", "test_value");
+        Bundle outState = generateActivityBundle();
         presenterLifecycle.onSavePresenterState(outState);
         presenterLifecycle.onPause(true);
         BaseViewPresenter afterViewPresenter = presenterLifecycle.onCreate(outState);
@@ -122,8 +130,7 @@ public class PresenterLifecycleTest {
     @Test
     public void testSavedInstanceStateShouldContainsPresenterKey() throws Exception {
         BaseViewPresenter viewPresenter = presenterLifecycle.onCreate(null);
-        Bundle outState = new Bundle();
-        outState.putString("test_key", "test_value");
+        Bundle outState = generateActivityBundle();
         presenterLifecycle.onSavePresenterState(outState);
         String presenterId = stubPresenterStorage.getIdOfPresenter(viewPresenter);
         assertThat(outState.getString(PresenterLifecycle.PRESENTER_ID_KEY)).isEqualTo(presenterId);
@@ -134,15 +141,10 @@ public class PresenterLifecycleTest {
         BaseViewPresenter viewPresenter = presenterLifecycle.onCreate(null);
         Bundle presenterBundle = new Bundle();
         when(viewPresenter.saveState()).thenReturn(presenterBundle);
-        Bundle outState = new Bundle();
-        outState.putString("test_key", "test_value");
+        Bundle outState = generateActivityBundle();
         presenterLifecycle.onSavePresenterState(outState);
         String presenterId = stubPresenterStorage.getIdOfPresenter(viewPresenter);
         assertThat(outState.getString(PresenterLifecycle.PRESENTER_ID_KEY)).isEqualTo(presenterId);
         assertThat(outState.getBundle(PresenterLifecycle.PRESENTER_DATA_KEY)).isEqualTo(presenterBundle);
     }
-
-
-
-
 }
